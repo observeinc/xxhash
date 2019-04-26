@@ -42,18 +42,30 @@ type Digest struct {
 }
 
 // New creates a new Digest that computes the 64-bit xxHash algorithm.
+// Equivalent to NewWithSeed(0).
 func New() *Digest {
+	return NewWithSeed(0)
+}
+
+// NewWithSeed creates a new Digest that computes the 64-bit xxHash algorithm.
+func NewWithSeed(seed uint64) *Digest {
 	var d Digest
-	d.Reset()
+	d.ResetWithSeed(seed)
 	return &d
 }
 
 // Reset clears the Digest's state so that it can be reused.
+// Equivalent to ResetWithSeed(0).
 func (d *Digest) Reset() {
-	d.v1 = prime1v + prime2
-	d.v2 = prime2
-	d.v3 = 0
-	d.v4 = -prime1v
+	d.ResetWithSeed(0)
+}
+
+// ResetWithSeed clears the Digest's state so that it can be reused.
+func (d *Digest) ResetWithSeed(seed uint64) {
+	d.v1 = seed + prime1v + prime2
+	d.v2 = seed + prime2
+	d.v3 = seed
+	d.v4 = seed - prime1v
 	d.total = 0
 	d.n = 0
 }
