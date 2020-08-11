@@ -1,4 +1,4 @@
-module github.com/cespare/xxhash/v2
+module github.com/observeinc/xxhash/v2
 
 require (
 	github.com/OneOfOne/xxhash v1.2.2
